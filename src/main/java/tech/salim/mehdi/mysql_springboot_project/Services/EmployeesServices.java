@@ -7,68 +7,63 @@ import tech.salim.mehdi.mysql_springboot_project.Repository.EmployeesRepo;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 @Service
-public class EmployeesServices{
-
+public class EmployeesServices {
 
 
     @Autowired
     private EmployeesRepo employeesRepo;
 
-    public List<Employees> getAllEmployees() {
-        return employeesRepo.findAll();
-    }
+    public final Supplier<List<Employees>> getAllEmployees = () -> employeesRepo.findAll();
 
-    public List<Employees> findEmployeesByFirstNameAndLastName(String firstname,String lastname){
-        return employeesRepo.findAllByFirstNameAndLastName(firstname,lastname);
-    }
+    public final BiFunction<String, String, List<Employees>> findEmployeesByFirstNameAndLastName =
+            (firstName, lastName) -> employeesRepo.findAllByFirstNameAndLastName(firstName, lastName);
 
-    public List<Employees> findEmployeesByFirstName(String name){
-        return employeesRepo.findAllByFirstName(name);
-    }
+    public final Function<String, List<Employees>> findEmployeesByFirstName =
+            firstName -> employeesRepo.findAllByFirstName(firstName);
 
-    public List<Employees> findEmployeesByLastName(String name){
-        return employeesRepo.findAllByLastName(name);
-    }
+    public final Function<String, List<Employees>> findEmployeesByLastName =
+            lastName -> employeesRepo.findAllByLastName(lastName);
 
-    public List<Employees> findEmployeesByJobTitle(String job){
-        return employeesRepo.findAllByJobTitle(job);
-    }
+    public final Function<String, List<Employees>> findEmployeesByJobTitle =
+            job -> employeesRepo.findAllByJobTitle(job);
 
-    public Optional<Employees> findById(long id){
-        return employeesRepo.findById(id);
-    }
+    public final Function<Long, Optional<Employees>> findById =
+            id -> employeesRepo.findById(id);
 
-    public Employees addEmployee(Employees employees){
-        return employeesRepo.save(employees);
-    }
+    public final Consumer<Employees> addEmployee =
+            employees -> employeesRepo.save(employees);
 
-    public Iterable<Employees> addAllEmployees(Iterable<Employees> employees){
-        return employeesRepo.saveAll(employees);
-    }
+    public final Consumer<Iterable<Employees>> addAllEmployees =
+            employees -> employeesRepo.saveAll(employees);
 
-    public void deleteEmployee(Employees employees){
-        employeesRepo.delete(employees);
-    }
+    public final Consumer<Employees> deleteEmployee =
+            employees -> employeesRepo.delete(employees);
 
-    public void deleteEmployeeById(Long employeeId){
-        employeesRepo.deleteById(employeeId);
-    }
+    public final Consumer<Long> deleteEmployeeById =
+            employeeId -> employeesRepo.deleteById(employeeId);
 
-    public void deleteAllEmployees(){
-        employeesRepo.deleteAll();
-    }
+    public final Supplier<String> deleteAllEmployees =
+            () -> {
+                employeesRepo.deleteAll();
+                return null;
+            };
 
-    public Employees updateEmployee(Long id,Employees employees){
-        Employees employee=new Employees();
-        employee.setID(id);
-        employee.setFirstName(employees.getFirstName());
-        employee.setLastName(employees.getLastName());
-        employee.setJobTitle(employees.getJobTitle());
-        employee.setSalary(employees.getSalary());
+    public final BiFunction<Long, Employees, Employees> updateEmployee =
+            (aLong, employees) -> {
+                Employees employee = new Employees();
+                employee.setID(aLong);
+                employee.setFirstName(employees.getFirstName());
+                employee.setLastName(employees.getLastName());
+                employee.setJobTitle(employees.getJobTitle());
+                employee.setSalary(employees.getSalary());
 
-        return employeesRepo.saveAndFlush(employee);
-    }
+                return employeesRepo.saveAndFlush(employee);
+            };
 
 }

@@ -1,7 +1,9 @@
 package tech.salim.mehdi.mysql_springboot_project.Model;
 
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
