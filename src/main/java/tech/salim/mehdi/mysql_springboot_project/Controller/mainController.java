@@ -22,7 +22,7 @@ import java.util.Optional;
  * like : <b>"http//localhost:8080/employees"</b> <br>
  * and @{@link RestController} for showing the result in the webpage
  */
-
+@CrossOrigin
 @RequestMapping("employees")
 @RestController
 public class mainController {

@@ -10,4 +10,5 @@ public class MysqlSpringbootProjectApplication {
         SpringApplication.run(MysqlSpringbootProjectApplication.class, args);
     }
 
+
 }
