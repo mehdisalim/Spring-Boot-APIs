@@ -25,14 +25,12 @@ public class userController {
 
     @GetMapping("all")
     public List<userInfo> findAllUsers() {
-        List<userInfo> userInfoList = services.findAll();
-        Stream<userInfo> stream = userInfoList.stream();
-        List<userInfo> collect =
-                stream.filter(userInfo -> !Objects
-                                .equals(userInfo.getPassword(), null))
+        return services.findAll()
+                .stream()
+                .filter(userInfo -> !Objects
+                        .equals(userInfo.getPassword(), null))
                         .sorted(Comparator.comparing(userInfo::getCustomer_id).reversed())
                         .collect(Collectors.toList());
-        return collect;
     }
 
 }
